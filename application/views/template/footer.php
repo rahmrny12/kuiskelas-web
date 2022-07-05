@@ -63,6 +63,20 @@
 <!-- <script src="<?= base_url('assets/sb-admin-2/') ?>js/demo/chart-area-demo.js"></script> -->
 <!-- <script src="<?= base_url('assets/sb-admin-2/') ?>js/demo/chart-pie-demo.js"></script> -->
 
+<script>
+    $(".navbar-nav .nav-item").each(function() {
+        var navItem = $(this);
+        var href = navItem.find("a").attr("href");
+        href = href.substring(href.lastIndexOf('/'))
+        var currentLocation = location.pathname;
+        currentLocation = currentLocation.substring(currentLocation.lastIndexOf('/'));
+        
+        if (href == currentLocation) {
+            navItem.addClass("active");
+        }
+    });
+</script>
+
 </body>
 
 </html>
