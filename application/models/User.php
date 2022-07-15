@@ -20,8 +20,13 @@ class User extends CI_Model
             ->row_array();
     }
 
-    public function insertUser($data)
+    public function insertPengajar($data)
     {
         $this->db->insert('pengajar', $data);
+    }
+
+    public function insertSiswa($data)
+    {
+        $this->db->insert('siswa', $data);
     }
 }

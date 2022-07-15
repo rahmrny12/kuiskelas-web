@@ -1,7 +1,7 @@
 <div class="mx-5 mb-5">
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between align-items-end">
         <h1>Daftar Soal</h1>
-        <div class="float-right  mb-3">
+        <div class="mb-2">
             <a href="<?= base_url('pengajar') ?>" class="btn btn-primary btn-icon-split mr-1">
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-left"></i>
@@ -69,7 +69,8 @@
                                         <i class="fas fa-edit"></i>
                                     </span>
                                 </a>
-                                <a href="#" id="deleteSoalBtn" data-pertanyaan="<?= $data['pertanyaan'] ?>" data-idsoal="<?= $data['id_soal'] ?>" data-idkuis="<?= $idkuis ?>" data-toggle="modal" data-target="#deleteSoalModal" class="btn btn-warning d-flex justify-content-between btn-icon-split">
+                                <!-- data-toggle="modal" data-target="#deleteSoalModal" -->
+                                <a href="#" id="deleteSoalBtn" data-pertanyaan="<?= $data['pertanyaan'] ?>" data-idsoal="<?= $data['id_soal'] ?>" data-idkuis="<?= $idkuis ?>" class="btn btn-warning d-flex justify-content-between btn-icon-split">
                                     <span class="text col text-dark">Hapus Soal</span>
                                     <span class="icon text-black-50">
                                         <i class="fas fa-trash"></i>
@@ -83,36 +84,3 @@
         </table>
     </div>
 </div>
-
-<div class="modal fade" id="deleteSoalModal" tabindex="-1" role="dialog" aria-labelledby="deleteSoalModalTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Hapus Soal</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="deleteSoalModalBody">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                <a href="#" class="btn btn-danger">Hapus soal</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    var modalBody = document.getElementById('deleteSoalModalBody');
-    var confirmDeleteBtn = $('#deleteSoalModal .btn-danger');
-
-    $(document).on("click", "#deleteSoalBtn", function() {
-        var pertanyaan = $(this).data('pertanyaan');
-        var id_soal = $(this).data('idsoal');
-        var id_kuis = $(this).data('idkuis');
-        modalBody.innerHTML = '<pre><strong>' + pertanyaan + '</strong></pre><span>Soal dengan pertanyaan di atas akan dihapus. Soal yang dihapus tidak dapat dikembalikan.</span>';
-        confirmDeleteBtn.attr('href', '<?= base_url('pengajar/hapus_soal/') ?>' + id_kuis + '/' + id_soal);
-    })
-</script>

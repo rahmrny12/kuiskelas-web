@@ -7,6 +7,11 @@ class Kuis extends CI_Model
         return $this->db->insert('kuisioner', $data);
     }
 
+    public function updateKuis($id_kuis, $data)
+    {
+        return $this->db->update('kuisioner', $data, ['id_kuisioner' => $id_kuis]);
+    }
+
     public function getKuisById($id)
     {
         return $this->db->get_where('kuisioner', ['id_kuisioner' => $id]);
@@ -17,7 +22,7 @@ class Kuis extends CI_Model
         return $this->db->get_where('kuisioner', ['id_pengajar' => $id]);
     }
 
-    public function getTotalKuisAndSoal($id)
+    public function getPengajarDash($id)
     {
         $kuis = $this->db->get_where('kuisioner', ['id_pengajar' => $id]);
         $soal = 0;
@@ -29,6 +34,22 @@ class Kuis extends CI_Model
         $count = [
             'kuis' => $kuis->num_rows(),
             'soal' => $soal,
+        ];
+        return $count;
+    }
+
+    public function getSiswaDash($id)
+    {
+        $jumlah_kuis_dikerjakan = $this->db->get_where('penilaian', ['id_siswa' => $id]);
+        $jumlah_soal_dikerjakan = 0;
+
+        foreach ($jumlah_kuis_dikerjakan->result_array() as $data) {
+            $jumlah_soal_dikerjakan += $this->db->where(['id_kuisioner' => $data['id_kuisioner']])->from('soal')->count_all_results();
+        }
+
+        $count = [
+            'jumlah_kuis_dikerjakan' => $jumlah_kuis_dikerjakan->num_rows(),
+            'jumlah_soal_dikerjakan' => $jumlah_soal_dikerjakan,
         ];
         return $count;
     }

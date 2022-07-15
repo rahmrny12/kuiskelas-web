@@ -16,14 +16,18 @@ class Dashboard extends CI_Controller
     public function index()
     {
         if ($this->session->userdata('role') == 'pengajar') {
-            $data['dash'] = $this->kuis->getTotalKuisAndSoal($this->session->userdata('id'));
+            $data['dash'] = $this->kuis->getPengajarDash($this->session->userdata('id'));
+            $data['title'] = 'Halaman Pengajar';
+            $this->load->view('template/header', $data);
+            $this->load->view('dashboard_pengajar', $data);
+            $this->load->view('template/footer');
         } else {
-            // $data['dash'] = $this->kuis->getTotalKuisAndSoal($user['id_pengajar']);
+            $data['dash'] = $this->kuis->getSiswaDash($this->session->userdata('id'));
+            $data['title'] = 'Halaman Siswa';
+            $this->load->view('template/header', $data);
+            $this->load->view('dashboard_siswa', $data);
+            $this->load->view('template/footer');
         }
         
-        $data['title'] = 'Halaman Pengajar';
-        $this->load->view('template/header', $data);
-        // $this->load->view('dashboard');
-        $this->load->view('template/footer');
     }
 }

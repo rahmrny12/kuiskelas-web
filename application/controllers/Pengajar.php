@@ -29,13 +29,8 @@ class pengajar extends CI_Controller
 
 	public function tambah_kuis()
 	{
-		$this->form_validation->set_rules('judul', 'Judul', 'required', [
-			'required' => 'Jangan lupa mengisi judul.'
-		]);
-
-		$this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required', [
-			'required' => 'Jangan lupa mengisi deskripsi.'
-		]);
+		$this->form_validation->set_rules('judul', 'Judul', 'required');
+		$this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required');
 
 		if ($this->form_validation->run() == false) {
 			$data['title'] = 'Tambah Kuis';
@@ -56,13 +51,49 @@ class pengajar extends CI_Controller
 				$this->session->set_flashdata(
 					'message',
 					'<div class="alert alert-danger alert-dismissible fade show" role="alert">
-						<span class="small">Gagal menambahkan kuis baru.</span>
+						<span class="font-weight-bold">Gagal menambahkan kuis baru.</span>
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>'
 				);
 				redirect(base_url('pengajar/tambah_kuis'));
+			};
+		}
+	}
+
+	public function edit_kuis($id_kuisioner)
+	{
+		$this->form_validation->set_rules('judul', 'Judul', 'required');
+		$this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required');
+
+		if ($this->form_validation->run() == false) {
+			$data['title'] = 'Tambah Kuis';
+			$data['kuis'] = $this->kuis->getKuisById($id_kuisioner)->row_array();
+			
+			$this->load->view('template/header', $data);
+			$this->load->view('pengajar/edit_kuis', $data);
+			$this->load->view('template/footer');
+		} else {
+			$kuis = [
+				'judul' => $this->input->post('judul'),
+				'deskripsi' => $this->input->post('deskripsi'),
+			];
+
+			$result = $this->kuis->updateKuis($id_kuisioner, $kuis);
+			if ($result) {
+				redirect(base_url('pengajar'));
+			} else {
+				$this->session->set_flashdata(
+					'message',
+					'<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<span class="font-weight-bold">Gagal mengedit kuis.</span>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>'
+				);
+				redirect(base_url('pengajar/edit_kuis'));
 			};
 		}
 	}
@@ -80,9 +111,17 @@ class pengajar extends CI_Controller
 
 	public function tambah_soal($id_kuisioner)
 	{
-		$this->form_validation->set_rules('pertanyaan1', 'Pertanyaan', 'required', [
-			'required' => 'Jangan lupa mengisi pertanyaan.'
-		]);
+		$this->form_validation->set_rules('pertanyaan_1', 'Pertanyaan', 'required');
+		$this->form_validation->set_rules('pertanyaan_1_jawaban_a', 'Jawaban', 'required');
+		$this->form_validation->set_rules('pertanyaan_1_jawaban_b', 'Jawaban', 'required');
+		$this->form_validation->set_rules('pertanyaan_1_jawaban_c', 'Jawaban', 'required');
+		$this->form_validation->set_rules('pertanyaan_1_jawaban_d', 'Jawaban', 'required');
+		$this->form_validation->set_rules('pertanyaan_1_jawaban_benar', 'Jawaban Benar', 'required_option');
+
+		function required_option($option)
+		{
+			return $option == 'Jawaban benar' ? FALSE : TRUE;
+		}
 
 		if ($this->form_validation->run() == false) {
 			$data['title'] = 'Tambah Soal';
@@ -93,12 +132,12 @@ class pengajar extends CI_Controller
 		} else {
 			$soal = [
 				'id_kuisioner' => $id_kuisioner,
-				'pertanyaan' => $this->input->post('pertanyaan1'),
-				'jawaban_a' => $this->input->post('pertanyaan1_jawaban1'),
-				'jawaban_b' => $this->input->post('pertanyaan1_jawaban2'),
-				'jawaban_c' => $this->input->post('pertanyaan1_jawaban3'),
-				'jawaban_d' => $this->input->post('pertanyaan1_jawaban4'),
-				'jawaban_benar' => $this->input->post('jawaban_benar'),
+				'pertanyaan' => $this->input->post('pertanyaan_1'),
+				'jawaban_a' => $this->input->post('pertanyaan_1_jawaban_a'),
+				'jawaban_b' => $this->input->post('pertanyaan_1_jawaban_b'),
+				'jawaban_c' => $this->input->post('pertanyaan_1_jawaban_c'),
+				'jawaban_d' => $this->input->post('pertanyaan_1_jawaban_d'),
+				'jawaban_benar' => $this->input->post('pertanyaan_1_jawaban_benar'),
 			];
 
 			// $i = 2;
@@ -118,7 +157,7 @@ class pengajar extends CI_Controller
 				$this->session->set_flashdata(
 					'message',
 					'<div class="alert alert-danger alert-dismissible fade show" role="alert">
-						<span class="small">Gagal menambahkan soal baru.</span>
+						<span class="font-weight-bold">Gagal menambahkan soal baru.</span>
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -131,9 +170,11 @@ class pengajar extends CI_Controller
 
 	public function edit_soal($id_kuisioner, $id_soal)
 	{
-		$this->form_validation->set_rules('pertanyaan1', 'Pertanyaan', 'required', [
-			'required' => 'Jangan lupa mengisi pertanyaan.'
-		]);
+		$this->form_validation->set_rules('pertanyaan', 'Pertanyaan', 'required');
+		$this->form_validation->set_rules('jawaban_a', 'Jawaban', 'required');
+		$this->form_validation->set_rules('jawaban_b', 'Jawaban', 'required');
+		$this->form_validation->set_rules('jawaban_c', 'Jawaban', 'required');
+		$this->form_validation->set_rules('jawaban_d', 'Jawaban', 'required');
 
 		if ($this->form_validation->run() == false) {
 			$data['title'] = 'Edit Soal';
@@ -145,11 +186,11 @@ class pengajar extends CI_Controller
 			$this->load->view('template/footer');
 		} else {
 			$soal = [
-				'pertanyaan' => $this->input->post('pertanyaan1'),
-				'jawaban_a' => $this->input->post('pertanyaan1_jawaban1'),
-				'jawaban_b' => $this->input->post('pertanyaan1_jawaban2'),
-				'jawaban_c' => $this->input->post('pertanyaan1_jawaban3'),
-				'jawaban_d' => $this->input->post('pertanyaan1_jawaban4'),
+				'pertanyaan' => $this->input->post('pertanyaan'),
+				'jawaban_a' => $this->input->post('jawaban_a'),
+				'jawaban_b' => $this->input->post('jawaban_b'),
+				'jawaban_c' => $this->input->post('jawaban_c'),
+				'jawaban_d' => $this->input->post('jawaban_d'),
 				'jawaban_benar' => $this->input->post('jawaban_benar'),
 			];
 
@@ -160,7 +201,7 @@ class pengajar extends CI_Controller
 				$this->session->set_flashdata(
 					'message',
 					'<div class="alert alert-danger alert-dismissible fade show" role="alert">
-						<span class="small">Gagal mengedit soal.</span>
+						<span class="font-weight-bold">Gagal mengedit soal.</span>
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -178,7 +219,7 @@ class pengajar extends CI_Controller
 			$this->session->set_flashdata(
 				'message',
 				'<div class="alert alert-warning alert-dismissible fade show" role="alert">
-					<span class="small">Soal berhasil dihapus.</span>
+					<span class="font-weight-bold">Soal berhasil dihapus.</span>
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -189,13 +230,25 @@ class pengajar extends CI_Controller
 			$this->session->set_flashdata(
 				'message',
 				'<div class="alert alert-danger alert-dismissible fade show" role="alert">
-					<span class="small">Gagal menghapus soal.</span>
+					<span class="font-weight-bold">Gagal menghapus soal.</span>
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>'
 			);
 			redirect(base_url('pengajar/daftar_soal/' . $idkuis));
+		}
+	}
+
+	public function required_option($option)
+	{
+		var_dump('get in');
+		die;
+		if ($option == '0') {
+			return false;
+			$this->form_validation->set_message('required_option', 'Pilih jawaban benar dari pertanyaan di atas.');
+		} else {
+			return true;
 		}
 	}
 }

@@ -37,7 +37,7 @@
                                         <i class="fas fa-eye"></i>
                                     </span>
                                 </a>
-                                <a href="<?= base_url('pengajar/daftar_soal/' . $data['id_kuisioner']) ?>" class="btn btn-info d-flex justify-content-between btn-icon-split">
+                                <a href="<?= base_url('pengajar/edit_kuis/' . $data['id_kuisioner']) ?>" class="btn btn-info d-flex justify-content-between btn-icon-split">
                                     <span class="text col">Edit</span>
                                     <span class="icon text-white-50 ml-1">
                                         <i class="fas fa-edit"></i>

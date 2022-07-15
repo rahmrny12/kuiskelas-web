@@ -47,6 +47,8 @@
     </div>
 </div>
 
+<script src="<?= base_url('assets/sweetalert/dist/') ?>sweetalert2.all.min.js"></script>
+
 <!-- Bootstrap core JavaScript-->
 <script src="<?= base_url('assets/sb-admin-2/') ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -70,11 +72,60 @@
         href = href.substring(href.lastIndexOf('/'))
         var currentLocation = location.pathname;
         currentLocation = currentLocation.substring(currentLocation.lastIndexOf('/'));
-        
+
         if (href == currentLocation) {
             navItem.addClass("active");
         }
     });
+</script>
+
+<template id="custom-alert">
+    <swal-button type="confirm" color="#0D6EFD">Konfirmasi</swal-button>
+    <swal-button type="cancel">Batal</swal-button>
+    <swal-param name="showCancelButton" value="true" />
+    <swal-param name="allowEnterKey" value="false" />
+</template>
+
+<script>
+    $(document).ready(function() {
+        $("#confirmKuis").click(function() {
+            var judul = $("#judul").val();
+            var deskripsi = $("#deskripsi").val();
+
+            Swal.fire({
+                template: '#custom-alert',
+                title: 'Konfirmasi Kuis',
+                html: '<h5><span class="font-weight-bold">Judul : </span>' + judul + '<br><span class="font-weight-bold">Deskripsi : </span>' + deskripsi + '</h5>',
+                icon: 'info',
+                position: 'top',
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.kuisForm.submit();
+                }
+            })
+        });
+
+        $(document).on("click", "#deleteSoalBtn", function() {
+            var id_soal = $(this).data('idsoal');
+            var id_kuis = $(this).data('idkuis');
+            var pertanyaan = $(this).data('pertanyaan');
+
+            Swal.fire({
+                template: '#custom-alert',
+                title: 'Yakin ingin menghapus soal?',
+                html: '<h5>Pertanyaan berikut akan dihapus : <pre><br>' + pertanyaan + '</pre></h5>',
+                icon: 'warning',
+                position: 'top',
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.replace('<?= base_url('pengajar/hapus_soal/') ?>' + id_kuis + '/' + id_soal);
+                    // confirmDeleteBtn.attr('href', '<?= base_url('pengajar/hapus_soal/') ?>' + id_kuis + '/' + id_soal);
+                }
+            })
+        });
+    })
 </script>
 
 </body>

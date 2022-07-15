@@ -21,6 +21,6 @@
         <a class="small" href="forgot-password.html">Lupa Password?</a>
     </div>
     <div class="text-center">
-        <a class="small" href="register.html">Buat akun baru!</a>
+        <a href="<?= base_url('auth/registrasi') ?>">Buat akun baru!</a>
     </div>
 </div>

@@ -73,6 +73,33 @@ class Auth extends CI_Controller
         }
     }
 
+    public function registrasi()
+    {
+        if (!is_logged_in()) {
+            $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email', [
+                'required' => 'Isi email terlebih dahulu.',
+                'valid_email' => 'Format email tidak sesuai.',
+            ]);
+
+            $this->form_validation->set_rules('password', 'Password', 'trim|required', [
+                'required' => 'Isi password terlebih dahulu.',
+            ]);
+
+            if ($this->form_validation->run() == false) {
+                $data['title'] = 'Registrasi';
+                $this->load->view('auth-template/header', $data);
+                $this->load->view('auth/registrasi');
+                $this->load->view('auth-template/footer');
+            } else {
+                $user = [
+                    'email' => $this->input->post('email'),
+                    'password' => $this->input->post('password'),
+                ];
+                var_dump($user);die;
+            }
+        }
+    }
+
     public function logout()
     {
         $this->session->unset_userdata(['name', 'email', 'logged_in']);
