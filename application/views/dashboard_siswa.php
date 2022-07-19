@@ -23,7 +23,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="font-weight-bold text-success text-uppercase mb-1">
-                                Soal dikerjakan</div>
+                                Soal dijawab</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $dash['jumlah_soal_dikerjakan'] ?> Soal</div>
                         </div>
                         <div class="col-auto">

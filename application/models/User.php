@@ -22,11 +22,11 @@ class User extends CI_Model
 
     public function insertPengajar($data)
     {
-        $this->db->insert('pengajar', $data);
+        return $this->db->insert('pengajar', $data);
     }
 
     public function insertSiswa($data)
     {
-        $this->db->insert('siswa', $data);
+        return $this->db->insert('siswa', $data);
     }
 }
