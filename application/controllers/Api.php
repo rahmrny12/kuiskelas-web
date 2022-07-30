@@ -12,12 +12,18 @@ class Api extends RestController
         $this->load->model('kuis');
     }
 
-    public function kuis_get($id)
+    public function kuis_post()
     {
         try {
             $this->db->db_debug = FALSE;
-            $kuis = $this->kuis->getKuisByPengajar($id);
-            
+
+            $id = $this->input->post('id');
+            if ($id == null) {
+                $kuis = $this->kuis->getAllKuis();
+            } else {
+                $kuis = $this->kuis->getKuisByPengajar($id);
+            }
+
             if ($kuis) {
                 if ($kuis != null) {
                     $this->response([
@@ -44,24 +50,30 @@ class Api extends RestController
         }
     }
 
-    public function pengajar_get($id)
+    public function pengajar_post()
     {
         try {
             $this->db->db_debug = FALSE;
-            $kuis = $this->kuis->getKuisByPengajar($id);
             
-            if ($kuis) {
-                if ($kuis != null) {
+            $email = $this->input->post('email');
+            if ($email == null) {
+                $pengajar = $this->user->getAllPengajar();
+            } else {
+                $pengajar = $this->user->getPengajarByEmail($email);
+            }
+            
+            if ($pengajar) {
+                if ($pengajar != null) {
                     $this->response([
-                        'kuis'   => $kuis->result(),
+                        'pengajar'   => $pengajar->result(),
                         'status'  => 200,
-                        'message' => 'Berhasil mengambil data kuis.',
+                        'message' => 'Berhasil mengambil data pengajar.',
                     ], 200);
                 } else {
                     $this->response([
-                        'kuis'   => $kuis->result(),
+                        'pengajar'   => $pengajar->result(),
                         'status'  => 404,
-                        'message' => 'Data kuis kosong.',
+                        'message' => 'Data pengajar kosong.',
                     ], 200);
                 }
             } else {

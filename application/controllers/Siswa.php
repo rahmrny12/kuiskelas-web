@@ -15,7 +15,7 @@ class Siswa extends CI_Controller
 
 	public function index()
 	{
-		$user = $this->user->getPengajarByEmail('rahmatprayogo12@gmail.com');
+		$user = $this->user->getPengajarByEmail('rahmatprayogo12@gmail.com')->row_array();
 		$data['kuis'] = $this->kuis->getKuisByPengajar($user['id_pengajar'])->result_array();
 
 		$data['title'] = 'Halaman Pengajar';

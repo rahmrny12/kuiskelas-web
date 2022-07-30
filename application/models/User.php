@@ -2,10 +2,14 @@
 
 class User extends CI_Model
 {
+    public function getAllPengajar()
+    {
+        return $this->db->get('pengajar');
+    }
+
     public function getPengajarByEmail($email)
     {
-        return $this->db->get_where('pengajar', ['email' => $email])
-            ->row_array();
+        return $this->db->get_where('pengajar', ['email' => $email]);
     }
 
     public function getSiswaByEmail($email)

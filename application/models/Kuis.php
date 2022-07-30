@@ -12,6 +12,11 @@ class Kuis extends CI_Model
         return $this->db->update('kuisioner', $data, ['id_kuisioner' => $id_kuis]);
     }
 
+    public function getAllKuis()
+    {
+        return $this->db->get('kuisioner');
+    }
+    
     public function getKuisById($id)
     {
         return $this->db->get_where('kuisioner', ['id_kuisioner' => $id]);

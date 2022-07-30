@@ -24,7 +24,7 @@ class Auth extends CI_Controller
                 $email = $this->input->post('email');
                 $password = $this->input->post('password');
 
-                $loginPengajar = $this->user->getPengajarByEmail($email);
+                $loginPengajar = $this->user->getPengajarByEmail($email)->row_array();
                 if ($loginPengajar != null) {
                     $userPassword = $loginPengajar['password'];
                     $user = [
