@@ -54,14 +54,14 @@ class Api extends RestController
     {
         try {
             $this->db->db_debug = FALSE;
-            
+
             $email = $this->input->post('email');
             if ($email == null) {
                 $pengajar = $this->user->getAllPengajar();
             } else {
                 $pengajar = $this->user->getPengajarByEmail($email);
             }
-            
+
             if ($pengajar) {
                 if ($pengajar != null) {
                     $this->response([

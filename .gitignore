@@ -1,3 +1,7 @@
+.vscode
+.ftpconfig
+.ftpignore
+
 .DS_Store
 
 application/cache/*
